@@ -1,0 +1,29 @@
+name: Deploy to Firebase Functions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: service-account.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+        working-directory: functions
+
+      - run: npm i -g firebase-tools
+
+      - run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CUSTOM_TOKEN_EC9DF }}" > "service-account.json"
+
+      - run: firebase deploy --only functions
