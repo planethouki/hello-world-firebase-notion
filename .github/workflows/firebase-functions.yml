@@ -25,5 +25,6 @@ jobs:
       - run: npm i -g firebase-tools
 
       - run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CUSTOM_TOKEN_EC9DF }}" > "service-account.json"
+      - run: wc -l service-account.json
 
       - run: firebase deploy --only functions
