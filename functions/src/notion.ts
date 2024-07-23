@@ -6,6 +6,10 @@ const NOTION_CLIENT_ID = process.env.NOTION_CLIENT_ID;
 const NOTION_CLIENT_SECRET = process.env.NOTION_CLIENT_SECRET;
 const NOTION_REDIRECT_URI = process.env.NOTION_REDIRECT_URI;
 
+router.get('/client', (req, res) => {
+  res.send(NOTION_CLIENT_ID)
+})
+
 router.get('/oauth/callback', async (req, res) => {
   functions.logger.info("/oauth/callback", {structuredData: true});
 
