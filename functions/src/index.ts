@@ -1,5 +1,5 @@
-const functions = require('firebase-functions');
-const express = require('express');
+import functions = require('firebase-functions');
+import express = require('express');
 const app = express();
 const router = express.Router();
 
