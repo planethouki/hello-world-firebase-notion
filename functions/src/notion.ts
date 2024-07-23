@@ -2,18 +2,6 @@ import functions = require('firebase-functions');
 import express = require('express');
 const router = express.Router();
 
-
-router.get('/client', (req, res) => {
-  const NOTION_CLIENT_ID = process.env.NOTION_CLIENT_ID;
-  const NOTION_CLIENT_SECRET = process.env.NOTION_CLIENT_SECRET;
-  const NOTION_REDIRECT_URI = process.env.NOTION_REDIRECT_URI;
-  res.send({
-    a: Buffer.from(`${NOTION_CLIENT_ID}:${NOTION_CLIENT_SECRET}`).toString('base64'),
-    b: NOTION_REDIRECT_URI,
-    c: NOTION_CLIENT_ID
-  })
-})
-
 router.get('/oauth/callback', async (req, res) => {
   functions.logger.info("/oauth/callback", {structuredData: true});
 
