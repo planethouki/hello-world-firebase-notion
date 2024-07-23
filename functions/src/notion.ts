@@ -1,6 +1,6 @@
 import functions = require('firebase-functions');
 import express = require('express');
-import * as admin from 'firebase-admin';
+import FirebaseAdmin from './FirebaseAdmin'
 const router = express.Router();
 
 router.get('/oauth/callback', async (req, res) => {
@@ -9,6 +9,8 @@ router.get('/oauth/callback', async (req, res) => {
   const NOTION_CLIENT_ID = process.env.NOTION_CLIENT_ID;
   const NOTION_CLIENT_SECRET = process.env.NOTION_CLIENT_SECRET;
   const NOTION_REDIRECT_URI = process.env.NOTION_REDIRECT_URI;
+
+  const admin = FirebaseAdmin.getFirebaseAdmin();
 
   const code = req.query.code as string;
 
