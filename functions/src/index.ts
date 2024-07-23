@@ -3,14 +3,9 @@ import express = require('express');
 const app = express();
 const router = express.Router();
 
-router.get('/', (req: any, res: any) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
-  res.send('/ Hello from Firebase Functions with Express!');
-});
-
 router.get('/hello', (req: any, res: any) => {
   functions.logger.info("Hello logs!", {structuredData: true});
-  res.send('/hello Hello from Firebase Functions with Express!');
+  res.send('/api/hello Hello from Firebase Functions with Express!');
 });
 
 app.use('/api', router);
