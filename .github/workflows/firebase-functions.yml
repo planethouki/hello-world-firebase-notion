@@ -20,12 +20,6 @@ jobs:
       - run: npm install
         working-directory: functions
 
-      - name: Create .env file
-        run: echo $DOTENV > .env
-        env:
-          DOTENV: ${{ secrets.ENV_FUNCTIONS }}
-        working-directory: functions
-
       - run: npm i -g firebase-tools
 
       - run: firebase deploy --only functions --token ${{ secrets.FIREBASE_TOKEN }}
