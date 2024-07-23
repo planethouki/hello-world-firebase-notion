@@ -12,12 +12,12 @@ router.get('/oauth/callback', async (req, res) => {
   const code = req.query.code as string;
 
   try {
-    const basic = Buffer.from(`${NOTION_CLIENT_ID}:${NOTION_CLIENT_SECRET}`).toString('base64');
+    const encoded = Buffer.from(`${NOTION_CLIENT_ID}:${NOTION_CLIENT_SECRET}`).toString('base64');
     const tokenResponse = await fetch('https://api.notion.com/v1/oauth/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${basic}`
+        'Authorization': `Basic ${encoded}`
       },
       body: JSON.stringify({
         code: code,
