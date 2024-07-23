@@ -1,5 +1,6 @@
 import functions = require('firebase-functions');
 import express = require('express');
+import notion from './notion';
 const app = express();
 const router = express.Router();
 
@@ -9,5 +10,6 @@ router.get('/hello', (req: any, res: any) => {
 });
 
 app.use('/api', router);
+app.use('/api/notion', notion);
 
 exports.api = functions.region('asia-northeast1').https.onRequest(app);
