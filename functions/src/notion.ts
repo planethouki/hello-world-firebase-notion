@@ -1,5 +1,6 @@
 import functions = require('firebase-functions');
 import express = require('express');
+import * as admin from 'firebase-admin';
 const router = express.Router();
 
 router.get('/oauth/callback', async (req, res) => {
@@ -25,6 +26,29 @@ router.get('/oauth/callback', async (req, res) => {
         redirect_uri: NOTION_REDIRECT_URI,
       })
     }).then((res) => res.json())
+
+    const {
+      access_token: notionAccessToken,
+      workspace_id: notionWorkspaceId,
+      owner: notionUser
+    } = tokenResponse;
+    const notionUserId = notionUser.user.id;
+    const notionUserEmail = notionUser.user.person.email;
+
+    if (!notionAccessToken || !notionWorkspaceId || !notionUserId || !notionUserEmail) {
+      return res
+        .send('notion access token or workspace id or user id or email is missing')
+        .status(500);
+    }
+
+    const userRef = admin.firestore().doc('test');
+    await userRef.set({
+      notionAccessToken,
+      notionWorkspaceId,
+      notionUserId,
+      notionUserEmail,
+      timestamp: admin.firestore.FieldValue.serverTimestamp()
+    });
 
     return res
       .send(tokenResponse)
