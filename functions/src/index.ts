@@ -12,4 +12,12 @@ router.get('/hello', (req: any, res: any) => {
 app.use('/api', router);
 app.use('/api/notion', notion);
 
-exports.api = functions.region('asia-northeast1').https.onRequest(app);
+exports.api = functions
+  .region('asia-northeast1')
+  .runWith({ secrets: [
+      "NOTION_CLIENT_ID",
+      "NOTION_CLIENT_SECRET",
+      "NOTION_REDIRECT_URI"
+    ] })
+  .https
+  .onRequest(app);
