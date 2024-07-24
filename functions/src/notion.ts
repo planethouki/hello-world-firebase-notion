@@ -77,7 +77,7 @@ router.get('/oauth/callback', async (req, res) => {
     const customToken = await admin.auth().createCustomToken(notionUserId);
 
     return res
-      .send({ tokenResponse, customToken })
+      .send({ customToken })
       .header('Content-Type', 'application/json');
   } catch (error) {
     functions.logger.error(error);
