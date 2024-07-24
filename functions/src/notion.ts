@@ -47,7 +47,10 @@ router.get('/oauth/callback', async (req, res) => {
       .firestore()
       .collection('loginHistories')
       .doc(`${Date.now()}-${notionUserId}`);
-    await loginHistoryRef.set(tokenResponse);
+    await loginHistoryRef.set({
+      tokenResponse,
+      createdAt: admin.firestore.FieldValue.serverTimestamp()
+    });
 
     const user = {
       id: notionUserId,
