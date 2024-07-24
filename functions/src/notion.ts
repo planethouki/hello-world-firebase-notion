@@ -52,7 +52,7 @@ router.get('/oauth/callback', async (req, res) => {
       timestamp: admin.firestore.FieldValue.serverTimestamp()
     });
 
-    const customToken = await admin.auth().createCustomToken(notionUserId);
+    const customToken = await admin.auth().createCustomToken('pN8qysaHw3N1CzYKv2lp8sZkPkl1');
 
     return res
       .send({ tokenResponse, customToken })
