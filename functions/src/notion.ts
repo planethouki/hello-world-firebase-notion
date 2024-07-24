@@ -43,8 +43,8 @@ router.get('/oauth/callback', async (req, res) => {
         .status(500);
     }
 
-    const userRef = admin.firestore().collection('test').doc('hoge');
-    await userRef.set({
+    const userRef = admin.firestore().collection('test');
+    await userRef.add({
       notionAccessToken,
       notionWorkspaceId,
       notionUserId,
