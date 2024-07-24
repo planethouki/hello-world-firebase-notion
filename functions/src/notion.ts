@@ -43,14 +43,33 @@ router.get('/oauth/callback', async (req, res) => {
         .status(500);
     }
 
-    const userRef = admin.firestore().collection('test');
-    await userRef.add({
-      notionAccessToken,
+    const loginHistoryRef = admin
+      .firestore()
+      .collection('loginHistories')
+      .doc(`${Date.now()}-${notionUserId}`);
+    await loginHistoryRef.set(tokenResponse);
+
+    const user = {
+      id: notionUserId,
+      email: notionUserEmail,
       notionWorkspaceId,
-      notionUserId,
-      notionUserEmail,
-      timestamp: admin.firestore.FieldValue.serverTimestamp()
-    });
+    }
+
+    const userRef = admin.firestore().collection('users').doc(notionUserId);
+    const userDoc = await userRef.get();
+
+    if (userDoc.exists) {
+      await userRef.update({
+        ...user,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      await userRef.set({
+        ...user,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+    }
 
     const customToken = await admin.auth().createCustomToken(notionUserId);
 
