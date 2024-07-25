@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import { getAuth } from 'firebase/auth'
+import { getAuth, signInWithCustomToken } from 'firebase/auth'
 
 onMounted(async () => {
   const urlParams = new URLSearchParams(window.location.search)
@@ -21,7 +21,8 @@ onMounted(async () => {
     }
   ).then((res) => res.json())
 
-  getAuth().signInWithCustomToken(response.token)
+  const auth = getAuth()
+  signInWithCustomToken(auth, response.token)
     .then((userCredential) => {
       const user = userCredential.user
       console.log(user)
