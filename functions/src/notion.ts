@@ -3,7 +3,7 @@ import express = require('express');
 import FirebaseAdmin from './FirebaseAdmin'
 const router = express.Router();
 
-router.get('/token', async (req, res) => {
+router.post('/token', async (req, res) => {
   functions.logger.info(req.path, {structuredData: true});
 
   const NOTION_CLIENT_ID = process.env.NOTION_CLIENT_ID;
