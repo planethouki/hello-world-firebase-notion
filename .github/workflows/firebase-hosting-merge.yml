@@ -24,7 +24,7 @@ jobs:
       - name: Create .env
         run: echo $ENV > .env
         env:
-          ENV: ${{ secrets.CLIENT_ENV }}
+          ENV: ${{ secrets.ENV_CLIENT }}
         working-directory: client
 
       - name: Check .env
