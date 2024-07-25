@@ -27,13 +27,6 @@ jobs:
           ENV: ${{ secrets.ENV_CLIENT }}
         working-directory: client
 
-      - name: Check .env
-        run: |
-          pwd
-          ls -la
-          wc -l .env
-        working-directory: client
-
       - name: Build project
         run: npm run build
         working-directory: client
