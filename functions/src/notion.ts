@@ -3,8 +3,8 @@ import express = require('express');
 import FirebaseAdmin from './FirebaseAdmin'
 const router = express.Router();
 
-router.get('/oauth/callback', async (req, res) => {
-  functions.logger.info("/oauth/callback", {structuredData: true});
+router.get('/token', async (req, res) => {
+  functions.logger.info(req.path, {structuredData: true});
 
   const NOTION_CLIENT_ID = process.env.NOTION_CLIENT_ID;
   const NOTION_CLIENT_SECRET = process.env.NOTION_CLIENT_SECRET;
