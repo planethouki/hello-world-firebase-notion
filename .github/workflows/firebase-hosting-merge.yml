@@ -22,7 +22,7 @@ jobs:
         working-directory: client
 
       - name: Create .env
-        run: echo $ENV > .env
+        run: echo "$ENV" > .env
         env:
           ENV: ${{ secrets.ENV_CLIENT }}
         working-directory: client
