@@ -12,7 +12,7 @@ router.get('/token', async (req, res) => {
 
   const admin = FirebaseAdmin.getFirebaseAdmin();
 
-  const code = req.query.code as string;
+  const code = req.body.code as string;
 
   try {
     const encoded = Buffer.from(`${NOTION_CLIENT_ID}:${NOTION_CLIENT_SECRET}`).toString('base64');
