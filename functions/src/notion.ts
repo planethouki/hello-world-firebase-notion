@@ -77,13 +77,13 @@ router.post('/token', async (req, res) => {
     const customToken = await admin.auth().createCustomToken(notionUserId);
 
     return res
+      .header('Content-Type', 'application/json')
       .send({ token: customToken })
-      .header('Content-Type', 'application/json');
   } catch (error) {
     functions.logger.error(error);
     return res
+      .status(500)
       .send('error')
-      .status(500);
   }
 
 });
