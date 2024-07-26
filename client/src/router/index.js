@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +9,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      meta: { requiresAuth: false },
     },
     {
       path: '/home',
@@ -26,9 +28,27 @@ const router = createRouter({
     {
       path: '/notion/oauth/callback',
       name: 'notion-callback',
-      component: () => import('../views/NotionCallbackView.vue')
+      component: () => import('../views/NotionCallbackView.vue'),
+      meta: { requiresAuth: false },
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const auth = getAuth();
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth !== false);
+
+  if (requiresAuth) {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        next();
+      } else {
+        next('/');
+      }
+    });
+  } else {
+    next();
+  }
+});
 
 export default router
