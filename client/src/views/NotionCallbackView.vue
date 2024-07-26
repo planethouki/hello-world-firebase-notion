@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted } from 'vue'
 import { getAuth, signInWithCustomToken } from 'firebase/auth'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 onMounted(async () => {
   const urlParams = new URLSearchParams(window.location.search)
@@ -24,8 +27,8 @@ onMounted(async () => {
   const auth = getAuth()
   signInWithCustomToken(auth, response.token)
     .then((userCredential) => {
-      const user = userCredential.user
-      console.log(user)
+      // const user = userCredential.user
+      router.push('/home')
     })
     .catch((error) => {
       const errorCode = error.code;
