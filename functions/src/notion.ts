@@ -1,7 +1,10 @@
 import functions = require('firebase-functions');
 import express = require('express');
 import FirebaseAdmin from './FirebaseAdmin'
+import * as cors from 'cors';
 const router = express.Router();
+
+router.use(cors({ origin: 'http://localhost:5173' }));
 
 router.post('/token', async (req, res) => {
   functions.logger.info(req.path, {structuredData: true});
