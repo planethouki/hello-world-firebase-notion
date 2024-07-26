@@ -38,17 +38,21 @@ router.beforeEach((to, from, next) => {
   const auth = getAuth();
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth !== false);
 
-  if (requiresAuth) {
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        next();
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      if (to.matched.some(record => record.meta.requiresAuth === false)) {
+        next('/home');
       } else {
-        next('/');
+        next();
       }
-    });
-  } else {
-    next();
-  }
+    } else {
+      if (requiresAuth) {
+        next('/');
+      } else {
+        next();
+      }
+    }
+  });
 });
 
 export default router
