@@ -11,7 +11,12 @@ router.post('/token', async (req, res) => {
 
   const NOTION_CLIENT_ID = process.env.NOTION_CLIENT_ID;
   const NOTION_CLIENT_SECRET = process.env.NOTION_CLIENT_SECRET;
-  const NOTION_REDIRECT_URI = process.env.NOTION_REDIRECT_URI;
+  const NOTION_REDIRECT_URI = (() => {
+    if (req.headers.origin === 'http://localhost:5173') {
+      return `http://localhost:5173${new URL(process.env.NOTION_REDIRECT_URI as string).pathname}`;
+    }
+    return process.env.NOTION_REDIRECT_URI;
+  })();
 
   const admin = FirebaseAdmin.getFirebaseAdmin();
 
