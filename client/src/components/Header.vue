@@ -1,7 +1,16 @@
 <script setup>
 import { RouterLink, useRouter } from "vue-router";
 import { getAuth, signOut } from "firebase/auth";
+import { toRefs } from 'vue';
 
+const props = defineProps({
+  userId: {
+    type: String,
+    required: false
+  }
+});
+
+const { userId } = toRefs(props);
 const auth = getAuth();
 const router = useRouter();
 
@@ -21,7 +30,10 @@ const handleLogout = async () => {
       <nav>
         <RouterLink to="/home">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <button @click="handleLogout" class="logout-button">Logout</button>
+        <div class="nav-right">
+          <div v-if="userId" class="user-id">User ID: {{ userId }}</div>
+          <button @click="handleLogout">Logout</button>
+        </div>
       </nav>
     </div>
   </header>
@@ -34,7 +46,13 @@ nav {
   align-items: center;
 }
 
-.logout-button {
+.nav-right {
   margin-left: auto;
+  text-align: right;
+}
+
+.user-id {
+  text-align: right;
+  font-weight: bold;
 }
 </style>
