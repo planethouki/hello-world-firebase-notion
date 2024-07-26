@@ -1,21 +1,20 @@
 <script setup>
+import { ref } from 'vue'
+import { getAuth, signOut } from 'firebase/auth'
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+
+const isLoggedIn = ref(false)
+const auth = getAuth()
+auth.onAuthStateChanged(user => {
+  isLoggedIn.value = !!user
+})
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/home">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+  <template v-if="isLoggedIn">
+    <Header />
+  </template>
 
   <RouterView />
 </template>
