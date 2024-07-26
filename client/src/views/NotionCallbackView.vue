@@ -1,15 +1,18 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { getAuth, signInWithCustomToken } from 'firebase/auth'
 import { useRouter } from 'vue-router'
+import LoadingSpinner from '../components/LoadingSpinner.vue'
 
 const router = useRouter()
+const isLoading = ref(true)
 
 onMounted(async () => {
   const urlParams = new URLSearchParams(window.location.search)
   const code = urlParams.get('code')
   if (!code) {
     console.error('No code provided')
+    isLoading.value = false
     return
   }
 
@@ -35,12 +38,16 @@ onMounted(async () => {
       const errorMessage = error.message;
       console.error(error)
     })
+    .finally(() => {
+      isLoading.value = false
+    })
 })
 </script>
 
 <template>
   <div>
-    <h1>Notion Callback</h1>
+    <h1>Now Login...</h1>
+    <LoadingSpinner v-if="isLoading" />
   </div>
 </template>
 
