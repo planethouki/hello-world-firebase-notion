@@ -32,6 +32,8 @@ router.post('/token', async (req, res) => {
       })
     }).then((res) => res.json())
 
+    functions.logger.info(tokenResponse.owner);
+
     const {
       access_token: notionAccessToken,
       workspace_id: notionWorkspaceId,
